@@ -10,7 +10,6 @@ router.get('/:departamento/:torre', async (req, res) => {
     console.log('torre:', torre);
 
     try {
-        // Validación de los parámetros recibidos
         if (!departamento || !torre) {
             return res.status(400).json({ message: 'Faltan parámetros: departamento o torre' });
         }
@@ -19,11 +18,9 @@ router.get('/:departamento/:torre', async (req, res) => {
         const notificaciones = await Notificacion.find({ departamento, torre }).sort({ createdAt: -1 });
 
         if (notificaciones.length > 0) {
-            // Devuelve las notificaciones encontradas
-            res.status(200).json(notificaciones);
+            res.status(200).json(notificaciones); // Devuelve las notificaciones encontradas
         } else {
-            // Si no hay notificaciones, devuelve un mensaje adecuado
-            res.status(404).json({ message: 'No se encontraron notificaciones para los parámetros especificados' });
+            res.status(200).json({ message: 'No se encontraron notificaciones', data: [] }); // Respuesta vacía
         }
     } catch (error) {
         console.error('Error al obtener las notificaciones:', error);
