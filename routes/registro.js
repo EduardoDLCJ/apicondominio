@@ -2,9 +2,10 @@ const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
 const cors = require('cors');
+const verifyToken = require('../middlewares/verifyToken')
 
 
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const { nombre, apellido, telefono, departamento, torre, tipoUsuario, contrasena } = req.body;
     console.log('Datos del registro = ', req.body);
