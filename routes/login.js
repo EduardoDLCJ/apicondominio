@@ -65,23 +65,35 @@ router.post('/verificar-token', async (req, res) => {
 });
 
 router.post('/comparar-token', async (req, res) => {
-  const { token, userId } = req.body;
-  console.log(req.body);
+  let { token, userId } = req.body;
+
+  console.log('Token recibido en API:', token);
+  console.log('User ID recibido en API:', userId);
 
   if (!token || !userId) {
+    console.log('Faltan datos en la petición');
     return res.status(400).json({ error: 'Token y userId son requeridos' });
   }
 
   try {
+    // Convertir userId a ObjectId
+    userId = new mongoose.Types.ObjectId(userId);
+
     const user = await User.findById(userId);
+
     if (!user) {
+      console.log('Usuario no encontrado en BD');
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
+    console.log('Token guardado en BD:', user.token);
+
     if (user.token !== token) {
+      console.log('El token no coincide');
       return res.status(401).json({ error: 'Token inválido o no coincide' });
     }
 
+    console.log('Token válido');
     res.status(200).json({ message: 'Token válido y coincide' });
   } catch (error) {
     console.error('Error en /comparar-token:', error);
