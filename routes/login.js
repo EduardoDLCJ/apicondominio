@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
 require('dotenv').config();
-
+const mongoose = require('mongoose'); 
 const router = express.Router();
 
 // Función para generar un token JWT
