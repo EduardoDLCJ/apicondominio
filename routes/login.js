@@ -65,20 +65,25 @@ router.post('/verificar-token', async (req, res) => {
 });
 
 router.post('/comparar-token', async (req, res) => {
-  const { token, userId } = req.body;
-
+  let { userId } = req.body;
 
   try {
+    // Convertir userId a ObjectId
+    userId = new mongoose.Types.ObjectId(userId);
+
+    // Buscar usuario en la base de datos
     const user = await User.findById(userId);
+
     if (!user) {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    if (!user.token || user.token !== token) {
-      return res.status(401).json({ error: 'Token inválido o no coincide' });
+    // Verificar si el usuario tiene un token registrado
+    if (!user.token) {
+      return res.status(401).json({ error: 'Token no disponible para este usuario' });
     }
 
-    res.status(200).json({ message: 'Token válido y coincide' });
+    res.status(200).json({ message: 'Token disponible', token: user.token });
   } catch (error) {
     console.error('Error en /comparar-token:', error);
     res.status(500).json({ error: 'Error en el servidor' });
