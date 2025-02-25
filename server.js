@@ -11,6 +11,7 @@ const login = require('./routes/login');
 const multas = require('./routes/multas');
 const users = require('./routes/users');
 const notificaciones = require('./routes/notifi');
+const Token = require('./models/token');
 
 console.log("Mongo URI:", process.env.MONGODB_URI);
 
@@ -27,6 +28,7 @@ app.use('/login', login);
 app.use('/multas', multas);
 app.use('/users', users);
 app.use('/notificaciones', notificaciones);
+app.use('/token', Token);
 
 // Iniciar servidor
 app.listen(PORT, '0.0.0.0', () => console.log(`Servidor escuchando en puerto ${PORT}`));

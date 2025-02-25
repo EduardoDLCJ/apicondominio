@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
   tipoUsuario: { type: String, required: true }, // Tipo de usuario
   //username: { type: String, required: true, unique: true }, // Nombre de usuario único
   contrasena: { type: String, required: true }, // Contraseña
+  token: { type: String, default: null }, // Token de refresco
 }, { timestamps: true }); // Agrega timestamps para `createdAt` y `updatedAt`
 
 // Middleware para hashear la contraseña antes de guardar

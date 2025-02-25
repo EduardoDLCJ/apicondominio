@@ -14,23 +14,28 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // Actualizar usuario (PROTEGIDO)
-router.put('/:id', verifyToken, async (req, res) => {
+router.post('/cambiarpass', verifyToken, async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await User.findById(req.params.id);
+        const { newPassword, logoutAllDevices } = req.body;
+        const user = await User.findById(req.user.id);
   
         if (!user) {
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
   
-        // Actualizar solo los campos proporcionados
-        if (username) user.username = username;
-        if (password) user.password = password; // Se activará el hash en el esquema
+        user.contrasena = newPassword; // Se activará el hash en el esquema
   
         await user.save();
-        res.status(200).json({ message: 'Usuario actualizado exitosamente' });
+
+        if (logoutAllDevices) {
+            user.token = ""; // Eliminar todos los tokens del usuario
+            await user.save();
+            return res.status(204).json({ message: 'Contraseña cambiada y tokens eliminados exitosamente' });
+        }
+
+        res.status(200).json({ message: 'Contraseña cambiada exitosamente' });
     } catch (err) {
-        res.status(400).json({ error: 'Error al actualizar usuario' });
+        res.status(400).json({ error: 'Error al cambiar la contraseña' });
     }
 });
 
@@ -44,5 +49,8 @@ router.delete('/:id', verifyToken, async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar usuario' });
     }
 });
+
+
+
 
 module.exports = router;
