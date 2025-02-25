@@ -66,6 +66,7 @@ router.post('/verificar-token', async (req, res) => {
 
 router.post('/comparar-token', async (req, res) => {
   const { token, userId } = req.body;
+  console.log(req.body);
 
   if (!token || !userId) {
     return res.status(400).json({ error: 'Token y userId son requeridos' });
