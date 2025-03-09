@@ -12,6 +12,8 @@ const multas = require('./routes/multas');
 const users = require('./routes/users');
 const notificaciones = require('./routes/notifi');
 const Token = require('./models/token');
+const verificar = require('./routes/verificar');
+const respaldo = require('./routes/respaldo');
 
 console.log("Mongo URI:", process.env.MONGODB_URI);
 
@@ -29,6 +31,8 @@ app.use('/multas', multas);
 app.use('/users', users);
 app.use('/notificaciones', notificaciones);
 app.use('/token', Token);
+app.use('/verificar', verificar);
+app.use('/backup', respaldo);
 
 // Iniciar servidor
 app.listen(PORT, '0.0.0.0', () => console.log(`Servidor escuchando en puerto ${PORT}`));
