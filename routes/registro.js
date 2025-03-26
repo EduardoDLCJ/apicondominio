@@ -7,7 +7,7 @@ const verifyToken = require('../middlewares/verifyToken')
 
 router.post('/', verifyToken, async (req, res) => {
   try {
-    const { nombre, apellido, telefono, departamento, torre, tipoUsuario, contrasena } = req.body;
+    const { nombre, apellido, correo, telefono, departamento, torre, tipoUsuario, contrasena } = req.body;
     console.log('Datos del registro = ', req.body);
 
     // Validar si ya existe un usuario con el mismo correo o nombre de usuario
@@ -22,7 +22,7 @@ router.post('/', verifyToken, async (req, res) => {
     }
 
     // Crear y guardar el nuevo usuario
-    const newUser = new User({ nombre, apellido, telefono, departamento, torre, tipoUsuario, contrasena });
+    const newUser = new User({ nombre, apellido, correo, telefono, departamento, torre, tipoUsuario, contrasena });
     await newUser.save();
     res.status(201).json({ message: 'Usuario registrado exitosamente' });
   } catch (err) {
