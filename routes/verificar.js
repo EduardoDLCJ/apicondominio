@@ -26,6 +26,12 @@ router.post("/", async (req, res) => {
       return res.status(400).json({ error: "Correo electrónico requerido" });
     }
 
+       // Verificar si el usuario existe en la base de datos
+    const user = await User.findOne({ correo });
+    if (!user) {
+      return res.status(404).json({ error: "El correo no está registrado" });
+    }
+    
     // Generar token válido por 5 minutos
     const token = jwt.sign({ email: correo }, SECRET_KEY, { expiresIn: "5m" });
 
