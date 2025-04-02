@@ -5,7 +5,7 @@ const cors = require('cors');
 const verifyToken = require('../middlewares/verifyToken')
 
 
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const { nombre, apellido, correo, telefono, departamento, torre, tipoUsuario, contrasena } = req.body;
     console.log('Datos del registro = ', req.body);
